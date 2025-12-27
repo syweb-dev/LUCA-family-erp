@@ -1,5 +1,7 @@
 ## Family Asset Lifecycle Management System (LUCA.NEX ERP)
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 > Personal/Family Digital & Physical Asset Full Lifecycle Management System  
 > Physical Asset Digitalization · Digital Asset Centralization · Intelligent Process Management · Family Information Sharing
 
