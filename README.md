@@ -302,7 +302,7 @@ Switch to the "Unified Reminder Center" module:
 
 ## 📄 License
 
-This project is for learning and reference purposes only.
+MIT License
 
 ## 🤝 Contributing
 
