@@ -304,6 +304,8 @@ Switch to the "Unified Reminder Center" module:
 
 MIT License
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ## 🤝 Contributing
 
 Issues and Pull Requests are welcome!
