@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>LUCA.NEX | ERP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: #f5f7fb;
+        color: #1f2933;
+      }
+
+      header {
+        background: linear-gradient(120deg, #2563eb, #7c3aed);
+        color: #fff;
+        padding: 16px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 20px;
+        letter-spacing: 0.04em;
+      }
+
+      header span {
+        font-size: 12px;
+        opacity: 0.9;
+      }
+
+      .layout {
+        display: flex;
+        min-height: calc(100vh - 64px);
+      }
+
+      nav {
+        width: 260px;
+        background: #0f172a;
+        color: #e5e7eb;
+        padding: 16px 0;
+        box-shadow: 4px 0 16px rgba(15, 23, 42, 0.6);
+      }
+
+      .nav-title {
+        padding: 0 20px 8px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: #6b7280;
+      }
+
+      .nav-item {
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.18s ease, color 0.18s ease;
+      }
+
+      .nav-item:hover {
+        background: rgba(148, 163, 184, 0.16);
+      }
+
+      .nav-item.active {
+        background: linear-gradient(90deg, #1d4ed8, #9333ea);
+        color: #f9fafb;
+      }
+
+      .nav-item small {
+        font-size: 11px;
+        opacity: 0.8;
+      }
+
+      main {
+        flex: 1;
+        padding: 24px 32px 40px;
+        overflow-y: auto;
+      }
+
+      .section {
+        display: none;
+      }
+
+      .section.active {
+        display: block;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 16px;
+        margin-top: 16px;
+      }
+
+      .card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 16px 18px;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+        border: 1px solid #e5e7eb;
+      }
+
+      .card h2 {
+        margin: 0 0 4px;
+        font-size: 16px;
+      }
+
+      .card p.desc {
+        margin: 0 0 12px;
+        font-size: 13px;
+        color: #6b7280;
+      }
+
+      .card h3 {
+        margin: 12px 0 8px;
+        font-size: 14px;
+      }
+
+      label {
+        display: block;
+        font-size: 12px;
+        margin: 6px 0 2px;
+        color: #4b5563;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 6px 8px;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        font-size: 13px;
+        outline: none;
+        transition: border 0.16s ease, box-shadow 0.16s ease;
+        background: #f9fafb;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3);
+        background: #ffffff;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 60px;
+      }
+
+      button {
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: none;
+        font-size: 13px;
+        cursor: pointer;
+        background: linear-gradient(120deg, #2563eb, #7c3aed);
+        color: #ffffff;
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+        transition: transform 0.08s ease, box-shadow 0.08s ease;
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 22px rgba(30, 64, 175, 0.5);
+      }
+
+      button:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 10px rgba(30, 64, 175, 0.4);
+      }
+
+      .btn-secondary {
+        background: #e5e7eb;
+        color: #111827;
+        box-shadow: none;
+      }
+
+      .inline-buttons {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 12px;
+      }
+
+      th,
+      td {
+        padding: 6px 8px;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #f3f4f6;
+        font-weight: 500;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        background: #eff6ff;
+        color: #1d4ed8;
+      }
+
+      .pill {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+      }
+
+      .stat-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: #4b5563;
+        margin-top: 4px;
+      }
+
+      .stat-row span {
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: #f3f4f6;
+      }
+
+      .hint {
+        font-size: 11px;
+        color: #9ca3af;
+      }
+
+      .badge-green {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .badge-red {
+        background: #fee2e2;
+        color: #b91c1c;
+      }
+
+      .badge-amber {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .reminder-list {
+        margin-top: 8px;
+        font-size: 12px;
+      }
+
+      .reminder-item {
+        padding: 6px 8px;
+        border-radius: 10px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .reminder-title {
+        font-weight: 500;
+      }
+
+      .reminder-meta {
+        font-size: 11px;
+        color: #6b7280;
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          display: none;
+        }
+
+        .layout {
+          display: block;
+        }
+
+        main {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>家庭资产 · 全生命周期中台</h1>
+        <span>实物资产数字化 · 数字资产集中化 · 管理流程智能化 · 家庭信息共享化</span>
+      </div>
+      <div style="text-align: right; font-size: 12px">
+        <div>今日家庭风险暴露：<strong id="summary-risk">--</strong></div>
+        <div class="hint">依据保修临期与大额订阅自动预估</div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav>
+        <div class="nav-title">模块</div>
+        <div class="nav-item" data-section="section-account">
+          <span>👤</span>
+          <div>
+            <div>账号 &amp; 家庭</div>
+            <small>登录 / 注册 / 成员管理</small>
+          </div>
+        </div>
+        <div class="nav-item active" data-section="section-assets">
+          <span>📦</span>
+          <div>
+            <div>保修 & 发票档案</div>
+            <small>资产全生命周期 & 维修记录</small>
+          </div>
+        </div>
+        <div class="nav-item" data-section="section-subscriptions">
+          <span>💳</span>
+          <div>
+            <div>数字订阅管控</div>
+            <small>续费日历 & 支出分析</small>
+          </div>
+        </div>
+        <div class="nav-item" data-section="section-resale">
+          <span>♻️</span>
+          <div>
+            <div>二手残值估算</div>
+            <small>市场价值趋势与处置指引</small>
+          </div>
+        </div>
+        <div class="nav-item" data-section="section-family">
+          <span>👨‍👩‍👧‍👦</span>
+          <div>
+            <div>家庭共享中台</div>
+            <small>Wi-Fi / 水电气 / 设备维护</small>
+          </div>
+        </div>
+        <div class="nav-item" data-section="section-reminders">
+          <span>⏰</span>
+          <div>
+            <div>统一提醒中心</div>
+            <small>未来 30 天关键节点</small>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        <section id="section-account" class="section">
+          <div class="card">
+            <h2>账号登录 / 注册</h2>
+            <p class="desc">
+              在云端长期维护家庭账号信息，区分管理员与普通成员，实现多人协同管理。
+            </p>
+            <div class="card-grid">
+              <div>
+                <h3>创建家庭（管理员注册）</h3>
+                <form id="form-register-admin">
+                  <label>管理员邮箱</label>
+                  <input name="email" type="email" placeholder="your@email" />
+
+                  <label>登录密码</label>
+                  <input name="password" type="password" placeholder="不少于 6 位" />
+
+                  <label>家庭名称</label>
+                  <input name="familyName" placeholder="如：王家、LUCA 家庭" />
+
+                  <div class="inline-buttons" style="margin-top: 8px">
+                    <button type="submit">创建家庭并注册管理员</button>
+                  </div>
+                  <div class="hint">
+                    首次使用建议先创建一个家庭管理员账号，用于邀请家庭成员加入。
+                  </div>
+                </form>
+              </div>
+
+              <div>
+                <h3>已有账号登录</h3>
+                <form id="form-login">
+                  <label>邮箱</label>
+                  <input name="email" type="email" />
+
+                  <label>密码</label>
+                  <input name="password" type="password" />
+
+                  <div class="inline-buttons" style="margin-top: 8px">
+                    <button type="submit">登录</button>
+                  </div>
+                  <div class="hint">
+                    支持管理员和普通成员账号登录，登录后可同步当前家庭信息。
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 16px">
+            <h3>家庭信息 &amp; 成员管理</h3>
+            <p class="desc">
+              查看当前登录用户与所属家庭，并由管理员进行成员邀请与踢出操作。
+            </p>
+            <div id="account-user-info" class="hint">尚未登录</div>
+            <div
+              id="account-family-info"
+              class="hint"
+              style="margin-top: 6px"
+            ></div>
+            <div class="inline-buttons" style="margin-top: 8px">
+              <button id="btn-refresh-account">刷新账号信息</button>
+              <button id="btn-logout" class="btn-secondary">退出登录</button>
+            </div>
+
+            <h3 style="margin-top: 16px">家庭成员列表</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>邮箱</th>
+                  <th>角色</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="table-family-members"></tbody>
+            </table>
+
+            <h3 style="margin-top: 16px">邀请普通成员（仅管理员）</h3>
+            <form id="form-add-member">
+              <div class="card-grid">
+                <div>
+                  <label>成员邮箱</label>
+                  <input name="email" type="email" />
+                </div>
+                <div>
+                  <label>初始密码</label>
+                  <input name="password" type="password" />
+                </div>
+              </div>
+              <div class="inline-buttons" style="margin-top: 8px">
+                <button type="submit">添加成员</button>
+              </div>
+              <div class="hint">
+                成员账号创建后，可使用该邮箱/密码在登录入口登录并查看家庭信息。
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section id="section-assets" class="section active">
+          <div class="card">
+            <h2>资产录入 · 发票与保修数字化</h2>
+            <p class="desc">
+              将电子产品、家电等实物资产统一纳入"家庭 ERP"，自动计算保修倒计时，后续可持续追加维修记录。
+            </p>
+            <form id="form-asset">
+              <div class="card-grid">
+                <div>
+                  <label>资产名称</label>
+                  <input name="name" placeholder="如：客厅电视、MacBook Pro" />
+
+                  <label>资产类别</label>
+                  <input name="category" placeholder="电视 / 笔记本 / 家电 / 珠宝" />
+
+                  <label>品牌</label>
+                  <input name="brand" placeholder="Apple / Sony / 美的" />
+
+                  <label>型号</label>
+                  <input name="model" placeholder="MNQH3CH/A" />
+
+                  <label>购入日期</label>
+                  <input name="purchaseDate" type="date" />
+
+                  <label>购入金额（元）</label>
+                  <input name="purchasePrice" type="number" step="0.01" />
+                </div>
+
+                <div>
+                  <label>保修期限（月）</label>
+                  <input name="warrantyMonths" type="number" />
+
+                  <label>保修类型</label>
+                  <select name="warrantyType">
+                    <option value="normal">标准保修</option>
+                    <option value="extended">延保服务</option>
+                    <option value="lifetime">终身保修</option>
+                  </select>
+
+                  <label>发票/电子凭证链接</label>
+                  <input
+                    name="invoiceUrl"
+                    placeholder="如：发票图片链接或云盘地址"
+                  />
+
+                  <label>说明书/保修卡链接</label>
+                  <input
+                    name="manualUrl"
+                    placeholder="产品说明书 PDF 或云盘链接"
+                  />
+
+                  <label>备注</label>
+                  <textarea
+                    name="notes"
+                    placeholder="可记录购买渠道、活动优惠信息等"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="inline-buttons">
+                <button type="submit">保存资产档案</button>
+                <button type="button" class="btn-secondary" id="btn-refresh-assets">
+                  刷新资产列表
+                </button>
+              </div>
+              <div class="hint">
+                OCR 发票识别、图片上传等能力可在此基础上扩展对接。
+              </div>
+            </form>
+          </div>
+
+          <div class="card" style="margin-top: 16px">
+            <h3>资产总览</h3>
+            <p class="desc">
+              一次录入，长期可追踪保修、维修历史与残值情况。
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th>名称</th>
+                  <th>型号</th>
+                  <th>购入日期</th>
+                  <th>金额</th>
+                  <th>保修状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="table-assets-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="section-subscriptions" class="section">
+          <div class="card">
+            <h2>数字订阅 · 续费日历</h2>
+            <p class="desc">
+              将所有视频会员、云服务、保险等订阅统一登记，避免"沉默扣费"。
+            </p>
+            <form id="form-subscription">
+              <div class="card-grid">
+                <div>
+                  <label>订阅名称</label>
+                  <input name="name" placeholder="如：Netflix、腾讯视频会员" />
+
+                  <label>服务提供方</label>
+                  <input name="provider" placeholder="如：Apple、腾讯" />
+
+                  <label>订阅品类</label>
+                  <input name="category" placeholder="视频 / 云盘 / 保险 / 健身" />
+
+                  <label>扣费金额（元）</label>
+                  <input name="amount" type="number" step="0.01" />
+                </div>
+
+                <div>
+                  <label>续费周期</label>
+                  <select name="renewCycle">
+                    <option value="month">月付</option>
+                    <option value="quarter">季付</option>
+                    <option value="year">年付</option>
+                  </select>
+
+                  <label>下次扣费日期</label>
+                  <input name="renewDate" type="date" />
+
+                  <label>扣费账户</label>
+                  <input name="payAccount" placeholder="支付宝 / 微信 / 某张银行卡" />
+
+                  <label>是否自动续费</label>
+                  <select name="autoRenew">
+                    <option value="true">是</option>
+                    <option value="false">否</option>
+                  </select>
+                </div>
+              </div>
+              <div class="inline-buttons">
+                <button type="submit">保存订阅</button>
+                <button
+                  type="button"
+                  class="btn-secondary"
+                  id="btn-refresh-subscriptions"
+                >
+                  刷新订阅列表
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="card" style="margin-top: 16px">
+            <h3>订阅总览 & 优化建议</h3>
+            <div class="stat-row" id="subscription-stats"></div>
+            <table>
+              <thead>
+                <tr>
+                  <th>名称</th>
+                  <th>类别</th>
+                  <th>金额</th>
+                  <th>续费日</th>
+                  <th>自动续费</th>
+                </tr>
+              </thead>
+              <tbody id="table-subscriptions-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="section-resale" class="section">
+          <div class="card">
+            <h2>二手残值 · 价值查一眼</h2>
+            <p class="desc">
+              基于购入时间与使用状态，快速估算电子产品二手价格，为置换和出售提供参考。
+            </p>
+            <div class="card-grid">
+              <div>
+                <label>选择资产</label>
+                <select id="select-resale-asset">
+                  <option value="">请选择已录入的资产</option>
+                </select>
+
+                <label>使用状态</label>
+                <select id="select-resale-condition">
+                  <option value="new">全新</option>
+                  <option value="99">99 新</option>
+                  <option value="95" selected>95 新</option>
+                  <option value="used">正常使用</option>
+                  <option value="repaired">维修过</option>
+                </select>
+
+                <div class="inline-buttons">
+                  <button id="btn-calc-resale">估算残值</button>
+                </div>
+                <div class="hint">
+                  正式环境可在此处对接闲鱼/转转等二手平台 API，替换为实时成交价格。
+                </div>
+              </div>
+
+              <div>
+                <h3>估算结果</h3>
+                <div id="resale-result" class="hint">尚未计算</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-family" class="section">
+          <div class="card">
+            <h2>家庭共享 · 信息共维护</h2>
+            <p class="desc">
+              将 Wi-Fi 密码、水电燃气账户、物业缴费、设备维护周期统一共享给家庭成员。
+            </p>
+            <form id="form-family-item">
+              <div class="card-grid">
+                <div>
+                  <label>信息名称</label>
+                  <input name="name" placeholder="如：家里 Wi-Fi、燃气户号" />
+
+                  <label>信息类型</label>
+                  <input name="type" placeholder="wifi / utility / device" />
+
+                  <label>信息内容</label>
+                  <textarea
+                    name="content"
+                    placeholder="例如：SSID、密码；水电燃气户号；设备品牌和型号"
+                  ></textarea>
+                </div>
+                <div>
+                  <label>备注说明</label>
+                  <textarea
+                    name="note"
+                    placeholder="如：仅父母可修改，儿童只读；缴费建议时间等"
+                  ></textarea>
+
+                  <label>可编辑角色（逗号分隔）</label>
+                  <input name="canEditRoles" placeholder="parent,admin" />
+                </div>
+              </div>
+              <div class="inline-buttons">
+                <button type="submit">添加共享信息</button>
+                <button
+                  type="button"
+                  class="btn-secondary"
+                  id="btn-refresh-family-items"
+                >
+                  刷新列表
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="card" style="margin-top: 16px">
+            <h3>家庭共享清单</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>名称</th>
+                  <th>类型</th>
+                  <th>内容</th>
+                  <th>可编辑角色</th>
+                  <th>创建时间</th>
+                </tr>
+              </thead>
+              <tbody id="table-family-items-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="section-reminders" class="section">
+          <div class="card">
+            <h2>统一提醒中心</h2>
+            <p class="desc">
+              汇总未来 30 天内与保修、订阅等相关的关键时间节点，为家庭成员统一提醒提供基础。
+            </p>
+            <div class="inline-buttons">
+              <button id="btn-refresh-reminders">刷新提醒列表</button>
+            </div>
+            <div class="reminder-list" id="reminder-list"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面未找到 - 404 Error</title>
+    <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 120px;
+            font-weight: 800;
+            color: #007bff;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* 倒计时文字样式 */
+        #timer {
+            font-weight: bold;
+            color: #dc3545;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>404</h1>
+        <h2>哎呀！您访问的页面不存在</h2>
+        <p>
+            抱歉，您请求的页面可能已移动、删除或从未存在。<br>
+            系统将在 <span id="timer">5</span> 秒后自动带您回到首页。
+        </p>
+        <a href="/" class="btn">立即跳转回首页</a>
+    </div>
+
+    <script>
+        // 设置倒计时秒数
+        let count = 5;
+        const timerElement = document.getElementById('timer');
+        const targetUrl = "/"; // 这里修改为你想要跳转的首页地址
+
+        const countdown = setInterval(() => {
+            count--;
+            timerElement.textContent = count;
+
+            if (count <= 0) {
+                clearInterval(countdown);
+                window.location.href = targetUrl;
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
